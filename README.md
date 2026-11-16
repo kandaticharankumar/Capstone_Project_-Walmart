@@ -1,113 +1,33 @@
-# Walmart Sales Capstone Project
+# Walmart Retail Sales Time-Series & Macroeconomic Impact Analysis
 
-This project analyzes Walmart sales data to understand store performance, seasonal patterns, and the impact of holidays, temperature, fuel prices, CPI, and unemployment on weekly sales.
+An end-to-end exploratory data analysis (EDA) and time-series decomposition project evaluating **6,435 weekly sales records across 45 Walmart retail stores**, examining store-level seasonality and macroeconomic sensitivity (`Unemployment`, `CPI`, `Fuel_Price`, `Temperature`, and `Holiday_Flag`).
 
-## Project Overview
-
-The notebook `Capstone_Project_(Walmart).ipynb` explores the Walmart sales dataset and performs data cleaning, exploratory data analysis, and time-based sales analysis for individual stores.
-
-The objective is to answer questions such as:
-
-- Which stores perform best?
-- How does holiday sales differ from regular weeks?
-- What are the relationships between sales and external factors?
-- How do sales change over time for a selected store?
-
-## Dataset
-
-The project uses a Walmart sales dataset with weekly sales records across multiple stores.
-
-Columns in the dataset:
-
-- Store
-- Date
-- Weekly_Sales
-- Holiday_Flag
-- Temperature
-- Fuel_Price
-- CPI
-- Unemployment
-
-## Notebook Contents
-
-The notebook includes:
-
-- Loading and inspecting the dataset
-- Checking for missing values
-- Converting the `Date` column to datetime format
-- Setting `Date` as the index for time series analysis
-- Selecting a specific store by ID
-- Grouping and viewing weekly sales records
-- Visual and exploratory analysis of sales trends
-
-## How to Run
-
-### In Google Colab
-
-1. Upload the dataset file to your Colab environment.
-2. Make sure the file is named:
-   `Walmart DataSet.csv`
-3. Update the loading cell if necessary:
-
-```python
-import pandas as pd
-
-df = pd.read_csv('/content/Walmart DataSet.csv')
-```
-
-4. Run the notebook cells in order.
-
-## Example Analysis
-
-The notebook includes logic to select a store by ID and inspect its weekly sales:
-
-```python
-a = int(input("Enter the store id:"))
-store = df[df.Store == a]
-sales = pd.DataFrame(store.Weekly_Sales.groupby(store.index).sum())
-```
-
-This allows the user to analyze any store from 1 to 45.
-
-## Technologies Used
-
-- Python
-- Pandas
-- NumPy
-- Matplotlib
-- Seaborn
-- Jupyter Notebook / Google Colab
-
-## Project Goals
-
-- Clean and prepare the dataset
-- Analyze the effect of business and external variables on revenue
-- Build insight-driven understanding of sales behavior
-- Provide a capstone-style exploratory data analysis project
-
-## Notes
-
-This project is intended as a learning and analysis exercise. It focuses on data exploration and business insight generation rather than deployment or production systems.
-
-## Repository Structure
+## Analytical Workflow
 
 ```text
-.
-├── Capstone_Project_(Walmart).ipynb
-├── Walmart DataSet.csv
-├── README.md
+Walmart Dataset (6,435 rows, 45 Stores)
+        │
+        ▼
+Data Cleaning & Datetime Indexing (pd.to_datetime -> Date Index)
+        │
+        ├───────────────────────────────────────────┐
+        ▼                                           ▼
+Store-Level Time-Series Analysis         Macroeconomic Correlation Study
+(Weekly Sales & seasonal_decompose)      (Weekly_Sales vs. Unemployment Rate)
+        │                                           │
+        ▼                                           ▼
+Trend, Seasonal & Residual Components    Top Affected Stores (Store 38: -0.79, Store 44: -0.78)
 ```
 
-## Future Improvements
+## Key Findings from the Analysis
+- **Dataset Coverage:** Processed `6,435` clean weekly observations with zero missing values across `45` stores (`Store`, `Date`, `Weekly_Sales`, `Holiday_Flag`, `Temperature`, `Fuel_Price`, `CPI`, `Unemployment`).
+- **Time-Series Seasonal Decomposition:** Applied additive/multiplicative `seasonal_decompose` (`period=12`) on store-level weekly revenue to separate underlying multi-year trends from recurring seasonal spikes[cite: 13].
+- **Unemployment Sensitivity by Store:** Grouped transactions by `Store` to compute correlation coefficients between `Weekly_Sales` and `Unemployment`, revealing strong negative correlations in specific branches[cite: 13]:
+  - **Store 38:** `r = -0.785`[cite: 13]
+  - **Store 44:** `r = -0.780`[cite: 13]
+  - **Store 39:** `r = -0.385`[cite: 13]
 
-Possible extensions for this project include:
-
-- Building a predictive sales model
-- Comparing stores using statistical summaries
-- Adding time series forecasting
-- Creating dashboards for business reporting
-- Automating report generation
-
-## License
-
-This project is for educational and portfolio use.
+## Tech Stack
+- **Data Manipulation:** Python, Pandas, NumPy[cite: 13]
+- **Statistical & Time-Series Modeling:** Statsmodels (`seasonal_decompose`)[cite: 13]
+- **Data Visualization:** Matplotlib, Seaborn[cite: 13]
